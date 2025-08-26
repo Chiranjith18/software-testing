@@ -18,7 +18,7 @@ a-1,a,a+1->0,1,2
 b-1,b,b+1->99,100,101
 here out of 6 if even one fails it completely fails
 
-2.4 transition table method
+2.4 state transition table method
 
 Software testing methodology
 1.Waterfall method
