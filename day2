@@ -18,4 +18,9 @@ a-1,a,a+1->0,1,2
 b-1,b,b+1->99,100,101
 here out of 6 if even one fails it completely fails
 
-
+Software testing methodology
+1.Waterfall method
+2.V method
+3.agile method
+4.spiral method
+5.increment method
