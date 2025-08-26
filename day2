@@ -3,7 +3,7 @@
   ->where the tester come up with own test values like -ve values..
 2.2 - equal partitioning
    ->for eg:[1-500]
-  -10 to 0 ->(1c)-> -8 ->slight out of range fail case
+  -100 to 0 ->(1c)-> -8 ->slight out of range fail case
   1 to 100 -->(2c)-> 45
   101 to 200 -->(3c)->167
   201 to 300 -->(4c)-->222
