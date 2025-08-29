@@ -1,0 +1,10 @@
+locators:used to get access of elements in the web page,to use this we need to create a webelement
+By.id
+By.class
+By.name
+By.partiallink
+BY.link
+By.cssSelectors
+By.xpath->relative path
+By.fullpath->absolute path
+  
