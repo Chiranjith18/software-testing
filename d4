@@ -2,5 +2,5 @@ css sleector
   1. #selector
   2. .selector
   3.textarea[name^='hbj'] ->starts with
-  4.textarea[name?='mnj']->ends with
+  4.textarea[name$='mnj']->ends with
   5.textarea[name*='dcds']->contains
