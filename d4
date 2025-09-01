@@ -4,3 +4,24 @@ css sleector
   3.textarea[name^='hbj'] ->starts with
   4.textarea[name$='mnj']->ends with
   5.textarea[name*='dcds']->contains
+
+xPath
+
+===> abs xPath - full path ==>
+/html/body/table[2]/tbody/tr/td[2]/form/table/tbody/tr[6]/td[2]/input
+
+===> Relative xPath
+// 1. Basic Attribute
+    //input[@id='searchInput']"
+    // 2. AND / OR
+    "//input[@id='searchInput' and @name='search']"
+    // 3. Contains
+    "//input[contains(@id,'search')]"
+    // 4. Starts-with
+    "//input[starts-with(@id,'search')]"
+   //5.Text()
+   "//a[text()='English']"
+   //6.Indexing
+    "(//input[@type='search'])[1]
+
+
