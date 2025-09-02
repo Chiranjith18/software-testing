@@ -2,3 +2,4 @@ mouse handling
 --> normal --> click();
 --> double click --> doubleclick(webelement).perform();
 --> right click --> contextclick(webelement).perform();
+Actions act = new Actions(driver)
