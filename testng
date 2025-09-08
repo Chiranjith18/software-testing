@@ -4,3 +4,14 @@ advantages of TestNG
 ->Annotations make test writing easy amd structured
 -> Parallel test execution to save time.
 ->Flexible test configuration(using testng.xml)
+
+@BeforeMethod(3rd)
+@BeforeClass(2nd)
+@BeforeSuite(1st)
+@Test(4th)
+@AfterMethod(5)
+@AfterClass(6)
+@AfterSuite(7)
+@DataProvider
+@Paramter will work only with @Test annotation
+
