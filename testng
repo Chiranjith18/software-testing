@@ -1,0 +1,6 @@
+advantages of TestNG
+
+-> Datadriven testing with @DataProvider
+->Annotations make test writing easy amd structured
+-> Parallel test execution to save time.
+->Flexible test configuration(using testng.xml)
