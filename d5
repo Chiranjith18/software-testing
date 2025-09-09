@@ -1,9 +1,6 @@
 mouse handling
---> normal --> click();
---> double click --> doubleclick(webelement).perform();
---> right click --> contextclick(webelement).perform();
-Actions act = new Actions(driver)
-
+->single,double and right click
+Actions  like hover
 alert
 window handling
 take screenshot and save
