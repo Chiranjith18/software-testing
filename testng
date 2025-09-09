@@ -15,3 +15,4 @@ advantages of TestNG
 @DataProvider
 @Paramter will work only with @Test annotation
 
+Read the configuration properties file to load test settings and use those settings to initialize and control the Selenium WebDriver.
