@@ -5,3 +5,5 @@ mouse handling
 Actions act = new Actions(driver)
 
 alert
+window handling
+take screenshot and save
