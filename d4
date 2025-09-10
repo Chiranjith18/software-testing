@@ -23,5 +23,6 @@ xPath
    "//a[text()='English']"
    //6.Indexing
     "(//input[@type='search'])[1]
+https://chatgpt.com/c/68c14d1c-8f44-8325-96fa-88ac390dcfa4
 
 
