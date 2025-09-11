@@ -143,3 +143,4 @@ INFO	General operational info	Normal application flow
 WARN	Potential issue	Non-critical problems
 ERROR	Serious error, operation failed	Exceptions, failed operations
 FATAL	Critical error, may stop app	System crash or unrecoverable error
+depencies are log4j core,log4j api
