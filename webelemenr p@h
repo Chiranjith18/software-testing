@@ -1,0 +1,149 @@
+package runner;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Set;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.EventFiringDecorator;
+import org.openqa.selenium.support.events.WebDriverListener;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.Test;
+import utils.EventHandler;
+
+public class TestSample {
+    public static WebDriver driver;
+    private WebDriverWait wait;
+    
+    @Test
+    public void testMain() throws InterruptedException {
+        try {
+            driver = new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(java.time.Duration.ofSeconds(10));
+            driver.manage().timeouts().pageLoadTimeout(java.time.Duration.ofSeconds(30));
+            wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(15));
+            
+            WebDriverListener listener = new EventHandler();
+            driver = new EventFiringDecorator<>(listener).decorate(driver);
+            driver.get("https://www.angi.com");
+            String parentWindow = driver.getWindowHandle();
+            
+            // Scroll to footer and click Twitter
+            scrollToFooter();
+            clickAndSwitch(getTwitterXPath(), parentWindow, "Twitter");
+            Thread.sleep(2000);
+            
+            // Scroll to footer and click Facebook
+            scrollToFooter();
+            clickAndSwitch(getFacebookXPath(), parentWindow, "Facebook");
+            Thread.sleep(2000);
+            
+            // Scroll to footer and click Pinterest
+            scrollToFooter();
+            clickAndSwitch(getPinterestXPath(), parentWindow, "Pinterest");
+            Thread.sleep(5000);
+            
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
+        }
+    }
+    
+    private String getTwitterXPath() {
+        // Multiple XPath options for Twitter
+        return "//a[contains(@href,'twitter.com') or contains(@href,'x.com')] | " +
+               "//a[.//img[contains(@alt,'Twitter') or contains(@alt,'twitter') or contains(@alt,'X')]] | " +
+               "//a[contains(@aria-label,'Twitter') or contains(@aria-label,'twitter')] | " +
+               "//a[contains(@class,'twitter')] | " +
+               "//a[contains(@title,'Twitter') or contains(@title,'twitter')]";
+    }
+    
+    private String getFacebookXPath() {
+        // Multiple XPath options for Facebook
+        return "//a[contains(@href,'facebook.com')] | " +
+               "//a[.//img[contains(@alt,'Facebook') or contains(@alt,'facebook')]] | " +
+               "//a[contains(@aria-label,'Facebook') or contains(@aria-label,'facebook')] | " +
+               "//a[contains(@class,'facebook')] | " +
+               "//a[contains(@title,'Facebook') or contains(@title,'facebook')]";
+    }
+    
+    private String getPinterestXPath() {
+        // Multiple XPath options for Pinterest
+        return "//a[contains(@href,'pinterest.com')] | " +
+               "//a[.//img[contains(@alt,'Pinterest') or contains(@alt,'pinterest')]] | " +
+               "//a[contains(@aria-label,'Pinterest') or contains(@aria-label,'pinterest')] | " +
+               "//a[contains(@class,'pinterest')] | " +
+               "//a[contains(@title,'Pinterest') or contains(@title,'pinterest')]";
+    }
+    
+    private void scrollToFooter() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // Scroll to bottom gradually to ensure all elements are loaded
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        try {
+            Thread.sleep(2000); // Increased wait time for elements to load
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void clickAndSwitch(String xpath, String parentWindow, String socialMedia) throws InterruptedException {
+        try {
+            System.out.println("Attempting to click " + socialMedia + " icon...");
+            
+            // Wait for the element to be present and clickable
+            WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+            
+            // Scroll the element into view
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
+            Thread.sleep(1000);
+            
+            // Highlight the element for debugging (optional)
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
+            Thread.sleep(500);
+            
+            // Try regular click first, then JavaScript click if needed
+            try {
+                element.click();
+            } catch (Exception e) {
+                System.out.println("Regular click failed for " + socialMedia + ", trying JavaScript click...");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+            }
+            
+            System.out.println(socialMedia + " icon clicked successfully");
+            
+            // Wait for the new window/tab to open with explicit wait
+            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+            
+            // Switch to the new window, then close it
+            Set<String> windows = driver.getWindowHandles();
+            for (String w : windows) {
+                if (!w.equals(parentWindow)) {
+                    driver.switchTo().window(w);
+                    System.out.println("Switched to " + socialMedia + " window: " + driver.getTitle());
+                    Thread.sleep(2000); // Wait for the page to load
+                    driver.close();
+                    System.out.println(socialMedia + " window closed");
+                    break;
+                }
+            }
+            
+            // Switch back to parent window
+            driver.switchTo().window(parentWindow);
+            System.out.println("Switched back to parent window");
+            
+        } catch (Exception e) {
+            System.err.println("Failed to click " + socialMedia + " icon: " + e.getMessage());
+            e.printStackTrace();
+            // Continue with the test even if one social media icon fails
+        }
+    }
+}
